@@ -76,7 +76,7 @@ app.get('/auth', passport.authenticate("auth0", {
     
 app.get('/api/me', (req, res, next) => {
     if(req.user) res.json(req.user);
-    else res.redirect("/auth")
+    //else res.redirect("/auth")
 })
 
 app.put('/api/setBTS', (req, res, next) =>{

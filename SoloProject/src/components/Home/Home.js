@@ -15,34 +15,43 @@ class Home extends Component {
    }
 
 
-   updateBalance(data){
-    this.setState({balance:data})
-  }
 
   componentDidMount(req, res, next){
       this.props.retrieveUser();
-      axios.get(`/api/getbal/enki`).then(response => {
-      this.updateBalance(response.data)
-      }).catch(console.log)
+      // axios.get(`/api/getbal/${this.props.user.id}`).then(response => {
+      //   console.log(response.data)
+      // this.setState({balance:response.data})
+      // }).catch(console.log)
   }
-
+  getBalance(req,res,next){
+    this.props.retrieveUser();
+    axios.get(`/api/getbal/${this.props.user.id}`).then(response => {
+      console.log(response.data)
+    this.setState({balance:response.data})
+    }).catch(console.log)
+  }
 
 
   render() {
       console.log(this.props);
+      let loginButton = null
+      if(this.props.user){
+        loginButton = <Link to="/login">
+        <button>Login Page</button>
+        </Link>
+      }
+      else{
+        loginButton = <h1>{this.state.balance}</h1>
+      }
+
     return (
       <div>
         <div>
           <h1>Welcome To The Home Page</h1>
         </div>
-        {!this.props.user && (
-          <div>
-            <h1>{this.state.balance}</h1>
-            <Link to="/login">
-            <button>Login Page</button>
-            </Link>
-          </div>
-        )}
+        {
+         loginButton
+        }
           <div>{this.props.user && <div>{this.props.user.name}</div>}</div>
 
         {this.props.user && <div>{this.props.user.id}</div>}

@@ -1,0 +1,1 @@
+UPDATE users SET bts_account = $2 WHERE id = $1;

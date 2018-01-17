@@ -90,7 +90,8 @@ app.put('/api/setBTS', (req, res, next) =>{
      console.log(req.user.id)
 app.get('db').setBitShares([req.user.id, req.body.userNameInput]).then(response =>{
      console.log('db responded!')
-res.send('root')
+     res.json('success')
+
 })})
 
 app.get("/api/getbal/:id", mainCtrl.getBalance);

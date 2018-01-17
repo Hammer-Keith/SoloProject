@@ -9,7 +9,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:{},
       balance: {}
+      
     }
 
    }
@@ -17,47 +19,99 @@ class Home extends Component {
 
 
   componentDidMount(req, res, next){
-      this.props.retrieveUser();
-      // axios.get(`/api/getbal/${this.props.user.id}`).then(response => {
-      //   console.log(response.data)
-      // this.setState({balance:response.data})
-      // }).catch(console.log)
+      this.props.retrieveUser()
+      
+      console.log('bts account')
+      console.log(this.props.user)
+      console.log(this.props.user.bts_account)
+      for(var i = 0;i<10000;i++){
+      setTimeout(() => {
+      if(this.props.isLoading===false){
+      if(this.props.user.bts_account){
+        this.setState({user:this.props.user})
+        console.log('response')
+        axios.get(`/api/getbal/${this.state.user.id}`).then(response => {
+          console.log('response.then')
+          console.log(response.data)
+        this.setState({balance:response.data})
+    
+        }).catch(console.log)
+      }
+    }
+    
+    }, 20);
+    break
   }
-  getBalance(req,res,next){
-    this.props.retrieveUser();
-    axios.get(`/api/getbal/${this.props.user.id}`).then(response => {
-      console.log(response.data)
+  }
+   getBalance(req,res,next){
+    axios.get(`/api/getbal/${this.state.user.id}`).then(response => {
+    console.log(response.data)
     this.setState({balance:response.data})
-    }).catch(console.log)
-  }
+
+     }).catch(console.log)
+   }
 
 
   render() {
       console.log(this.props);
       let loginButton = null
-      if(this.props.user){
-        loginButton = <Link to="/login">
-        <button>Login Page</button>
-        </Link>
+      let BTSButton = null
+      let balance = null
+       if(!this.state.user.name){
+        console.log("props.user")
+        console.log(this.state.user)
+
+        loginButton =         
+        <a href={process.env.REACT_APP_LOGIN}>
+            <button className="headerbutton">Login</button>
+        </a>
+       }
+       else{
+        loginButton =         
+        <a href={process.env.REACT_APP_LOGOUT}>
+            <button className="headerbutton">Logout</button>
+        </a>
+       }
+
+if(this.state.user){
+      if(this.state.user.name){
+        BTSButton =         <Link to="/EnterBTS">
+        <button className="headerbutton">Account</button>
+    </Link>
       }
-      else{
-        loginButton = <h1>{this.state.balance}</h1>
+    }
+    else{
+      console.log('retrieveUser again')
+      this.state.retrieveUser()
+    }
+    
+      if(Object.keys(this.state.balance).length !== 0){
+        console.log('current balance')
+        console.log(this.state.balance)
+        balance = <p>{JSON.stringify(this.state.balance)}</p>
       }
 
     return (
       <div>
-        <div>
-          <h1>Welcome To The Home Page</h1>
-        </div>
+        <div className="login">
+        {
+          BTSButton
+        }
         {
          loginButton
         }
-          <div>{this.props.user && <div>{this.props.user.name}</div>}</div>
 
-        {this.props.user && <div>{this.props.user.id}</div>}
-        <Link to="/EnterBTS">
-            <button>BTSAccount</button>
-        </Link>
+        </div>
+        <div>
+
+          <h1>Welcome To The Home Page</h1>
+        </div>
+       
+          <div>{this.state.user && <div>{this.state.user.name}</div>}</div>
+        {balance}
+        {this.state.user && <div>{this.state.user.id}</div>}
+        {/* <div>{JSON.stringify(this.state.balance)}</div> */}
+
       </div>
     );
   }

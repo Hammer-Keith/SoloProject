@@ -27,6 +27,7 @@ export default function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isLoading: false,
         user: action.payload
+
       });
 
     case `${RETRIEVE_USER}_REJECTED`:

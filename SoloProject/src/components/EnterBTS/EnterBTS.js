@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { connect } from "react-redux";
-import {BrowserRouter} from "react-router-dom"
+//import { connect } from "react-redux";
+//import {BrowserRouter} from "react-router-dom"
 
 export default class login extends Component{
     constructor(props){
@@ -21,7 +21,7 @@ export default class login extends Component{
         console.log(this.state.userNameInput)
          axios.put("/api/setBTS", this.state).then(response =>{
              console.log('redirect to home')
-            this.props.history.push('/')
+            this.props.history.push('/#')
         
          })
     }

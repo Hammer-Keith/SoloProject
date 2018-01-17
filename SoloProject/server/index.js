@@ -73,16 +73,25 @@ app.get('/auth', passport.authenticate("auth0", {
     successRedirect: "http://localhost:3000/",
     faliureRedirect:"http://localhost:3000/login"
 }))
+
     
 app.get('/api/me', (req, res, next) => {
     if(req.user) res.json(req.user);
     //else res.redirect("/auth")
 })
+app.get('/logout', function(req, res){
+  req.logout();
+  res.send('root');
+});
 
 app.put('/api/setBTS', (req, res, next) =>{
-    console.log(req.body);
-app.get('db').setBitShares([req.user.id, req.body.userNameInput]).then(()=>{res.json('do it pls')})
-})
+     console.log(req.body);
+     console.log('req.user')
+     console.log(req.user.id)
+app.get('db').setBitShares([req.user.id, req.body.userNameInput]).then(response =>{
+     console.log('db responded!')
+res.send('root')
+})})
 
 app.get("/api/getbal/:id", mainCtrl.getBalance);
 

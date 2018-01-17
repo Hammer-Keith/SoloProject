@@ -5,12 +5,9 @@ export default class login extends Component{
     //     super(props)
     // }
     render(){
-        console.log(process.env)
         return(
             <div>
-                <a href={process.env.REACT_APP_LOGIN}>
-                    <button>Login</button>
-                </a>
+
             </div>
         )
     }

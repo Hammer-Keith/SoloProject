@@ -39,6 +39,18 @@
   color: #222222;
   background-color:#f2f2f2;
 }
+.table{
+  text-align: center;
+  
+
+}
+.dataTab{
+text-align: left;
+margin: 0px auto;
+
+
+}
+
 
 
 @keyframes App-logo-spin {

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import axios from "axios";
+//import axios from "axios";
 import logo from './logo.svg';
 import './App.css';
 import routes from "./routes";
@@ -10,7 +10,6 @@ class App extends Component {
    super(props);
 
    this.state = {
-     test: null
    };
  }
 
@@ -28,7 +27,6 @@ class App extends Component {
        <header className="App-header">
          <img src={logo} className="App-logo" alt="logo" />
        </header>
-       
        {routes}
      </div>
    );

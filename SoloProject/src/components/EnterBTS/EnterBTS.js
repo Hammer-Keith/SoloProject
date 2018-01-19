@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom'
+
 //import { connect } from "react-redux";
-import {BrowserRouter} from "react-router-dom"
+//import {BrowserRouter} from "react-router-dom"
 
 export default class login extends Component{
     constructor(props){
@@ -30,6 +32,17 @@ export default class login extends Component{
         console.log(process.env)
         return(
             <div>
+                <div className="login">
+                <Link to="/">
+                <button className="headerbutton">Home</button>
+                </Link>
+                <button className="headerbutton">Account</button>
+                <a href={process.env.REACT_APP_LOGOUT}>
+                <button className="headerbutton">Logout</button>
+                </a>
+                </div>
+
+
                     <input name="BTSusername" onChange={(e) => {this.updateUsername(e.target.value)}}></input>
                     {/* <a href={process.env.REACT_APP_LOGIN}> */}
                     <button name="enter username" onClick={() => {this.setUsername()}}>enter</button>

@@ -13,18 +13,14 @@ class Home extends Component {
       balance: {}
       
     }
-
    }
-
-
-
   componentDidMount(req, res, next){
       this.props.retrieveUser()
       
       console.log('bts account')
       console.log(this.props.user)
       console.log(this.props.user.bts_account)
-      for(var i = 0;i<10000;i++){
+      for(var i = 0;i<100000;i++){
       setTimeout(() => {
       if(this.props.isLoading===false){
       if(this.props.user.bts_account){
@@ -56,7 +52,6 @@ class Home extends Component {
       console.log(this.props);
       let loginButton = null
       let BTSButton = null
-      let balance = null
        if(!this.state.user.name){
         console.log("props.user")
         console.log(this.state.user)
@@ -88,12 +83,15 @@ if(this.state.user){
       if(Object.keys(this.state.balance).length !== 0){
         console.log('current balance')
         console.log(this.state.balance)
-        balance = <p>{JSON.stringify(this.state.balance)}</p>
+        console.log(Object.keys(this.state.balance))
       }
 
     return (
       <div>
         <div className="login">
+
+        <button className="headerbutton">Home</button>
+
         {
           BTSButton
         }
@@ -108,11 +106,40 @@ if(this.state.user){
         </div>
        
           <div>{this.state.user && <div>{this.state.user.name}</div>}</div>
-        {balance}
-        {this.state.user && <div>{this.state.user.id}</div>}
-        {/* <div>{JSON.stringify(this.state.balance)}</div> */}
+          
+        {/* {balance} */}
 
-      </div>
+
+
+        <div className="table">
+          {/* <p>{
+          JSON.stringify(this.state.balance)
+        }</p> */}
+{Object.keys(this.state.balance).length>0 &&
+ <table className="dataTab">
+  <thead>
+  <tr>
+    <th>Currency</th>
+    <th>Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  {
+    Object.keys(this.state.balance).map((val,i) =>(
+  <tr>
+    <td>{val}</td>
+    <td>{
+      this.state.balance[val].balance
+      }</td>
+  </tr>
+    ))
+  } 
+  </tbody>
+</table>
+}
+        </div>
+        </div>
     );
   }
 }

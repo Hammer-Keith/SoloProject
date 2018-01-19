@@ -81,7 +81,7 @@ app.get('/api/me', (req, res, next) => {
 })
 app.get('/logout', function(req, res){
   req.logout();
-  res.send('root');
+  res.redirect('http://localhost:3000/');
 });
 
 app.put('/api/setBTS', (req, res, next) =>{

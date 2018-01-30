@@ -38,11 +38,14 @@ class Home extends Component {
       var ans = [];
       var kees = Object.keys(this.state.balance);
 
-      this.state.value.map(
-        (val, i) =>
-          (ans[i] =
-            val * this.state.btsVal * this.state.balance[kees[i]].balance)
-      );
+      this.state.value.map((val, i) => {
+        if (kees[i] === "USD") {
+          ans[i] = val * this.state.balance[kees[i]].balance;
+        } else {
+          ans[i] =
+            val * this.state.btsVal * this.state.balance[kees[i]].balance;
+        }
+      });
       this.setState({ totalVal: ans });
 
       if (ans.length > 0) {
@@ -151,6 +154,9 @@ class Home extends Component {
         {this.props.user.name && (
           <div className="dataContainer">
             <div className="table">
+              {Object.keys(this.state.balance).length === 0 && (
+                <h1>Loading...</h1>
+              )}
               {Object.keys(this.state.balance).length > 0 && (
                 <table className="dataTab">
                   <thead>
@@ -169,14 +175,16 @@ class Home extends Component {
                         {this.state.value[i] && (
                           <td>
                             ${Math.round(
-                              this.state.value[i] * this.state.btsVal * 1000000
-                            ) / 1000000}
+                              this.state.value[i] *
+                                this.state.btsVal *
+                                100000000
+                            ) / 100000000}
                           </td>
                         )}
                         {this.state.totalVal[i] && (
                           <td>
-                            ${Math.round(this.state.totalVal[i] * 1000000) /
-                              1000000}
+                            ${Math.round(this.state.totalVal[i] * 100000000) /
+                              100000000}
                           </td>
                         )}
                       </tr>

@@ -25,6 +25,7 @@ massive(CONNECTION_STRING)
   .catch(console.log);
 
 //Middlewares
+app.use( express.static( `${__dirname}/../build` ) );
 app.use(json());
 app.use(cors());
 app.use(

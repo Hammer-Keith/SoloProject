@@ -7,6 +7,7 @@ const massive = require('massive');
 const passport = require('passport')
 const Auth0Strategy = require("passport-auth0")
 const app = express();
+const axios = require("axios");
 const mainCtrl = require("./controllers/mainCtrl.js")
 const {
     AUTH_DOMAIN,
@@ -77,7 +78,13 @@ app.get('/auth', passport.authenticate("auth0", {
     
 app.get('/api/me', (req, res, next) => {
     if(req.user) res.json(req.user);
-    //else res.redirect("/auth")
+    else res.redirect("http://localhost:3000/")
+})
+
+app.get('/api/new', (req, res, next) =>{
+    app.get('db').getUserByID(req.user.authid).then((response)=>(
+        res.json(response))).then(()=>(
+        res.redirect("http://localhost:3000/")))
 })
 app.get('/logout', function(req, res){
   req.logout();
@@ -85,30 +92,46 @@ app.get('/logout', function(req, res){
 });
 
 app.put('/api/setBTS', (req, res, next) =>{
-     console.log(req.body);
-     console.log('req.user')
-     console.log(req.user.id)
 app.get('db').setBitShares([req.user.id, req.body.userNameInput]).then(response =>{
-     console.log('db responded!')
-     res.json('success')
+     res.json("success!")
 
 })})
 
-app.get("/api/getbal/:id", mainCtrl.getBalance);
+app.get("/api/getbal/:id", (req,res,next) =>{
+    //axios.get(`https://cryptofresh.com/api/account/balances?account=${req.params.id}`).then(response => {
+    //res.json(response.data)
+    res.json({BTS:{balance:2.3552},USD:{balance:1.52321},CNY:{balance:2.4567},BTC:{balance:0.000355}})
+})
+//})
+app.get("/api/getvalue/:id", (req,res,next) =>{
+    // if(req.params.id ==='BTS'){
+    //     res.json({price:1})
+    // }
+    // else{
+    // axios.get(`https://cryptofresh.com/api/asset/markets?asset=${req.params.id}`).then(response => {
+    //     res.json(response.data.BTS)
+    console.log(req.params.id)
+    var obj ={'BTS':1,'USD':2.1240441801189465,'CNY':0.33557046979865773,'BTC':23764.25855513308}
+    res.json({price:obj[req.params.id]})
 
-// app.get('/api/test', (req,res) => {
-//    const db = req.app.get("db");
+})
+// }})
 
-//    db.products
-//    .find({})
-//    .then(response => {
-//        res.json(response)
-//    })
-//    .catch(console.log);
-// })
+app.get('/api/getBTSVal', (req,res,next)=>{
+    // axios.get('https://cryptofresh.com/api/asset/markets?asset=BTS').then(response=> {
+    //     res.json(response.data.USD.price)
+    //    })
+    res.json(0.475163)
+})
+
+app.get('/delete', (req,res,next)=>{
+    app.get('db').deleteUserByID(req.user.authid).then(response =>{
+        req.logout();
+        res.redirect('http://localhost:3000/');
+    })
+})
 
 app.listen(process.env.PORT || 3001, () => {
    console.log(`Listening on ${process.env.PORT || 3001}!`)
 })
-
 

@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
-
-//import { connect } from "react-redux";
-//import {BrowserRouter} from "react-router-dom"
+import { retrieveUser } from "../../ducks/user";
 
 export default class login extends Component{
     constructor(props){
@@ -23,13 +21,14 @@ export default class login extends Component{
         console.log(this.state.userNameInput)
          axios.put("/api/setBTS", this.state).then(response =>{
              console.log('redirect to home')
+             console.log(response.data)
+             
              window.location.href = "http://localhost:3000/";
-
+            
          })
     }
 
     render(){
-        console.log(process.env)
         return(
             <div>
                 <div className="login">
@@ -41,12 +40,15 @@ export default class login extends Component{
                 <button className="headerbutton">Logout</button>
                 </a>
                 </div>
-
-
-                    <input name="BTSusername" onChange={(e) => {this.updateUsername(e.target.value)}}></input>
-                    {/* <a href={process.env.REACT_APP_LOGIN}> */}
-                    <button name="enter username" onClick={() => {this.setUsername()}}>enter</button>
-                {/* </a> */}
+                    <h1>Enter your BitShares Username</h1>
+                    <div className="btsButtons">
+                    <input name="BTSusername" className="enterInput" onChange={(e) => {this.updateUsername(e.target.value)}}></input>
+                    <button name="enter username" className="enterButton" onClick={() => {this.setUsername()}}>enter</button>
+                <div ><a href={process.env.REACT_APP_DELETE}>
+                <button className="deleteAccButt">Delete Account</button>
+                </a>
+                </div>
+                </div>
             </div>
         )
     }

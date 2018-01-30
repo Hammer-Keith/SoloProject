@@ -4,14 +4,26 @@
 
 .App-logo {
   height: 40px;
+  position: fixed;
+}
+.bigBanner {
+  height: 75vh;
 }
 
 .App-header {
   background-color: #222;
   height: 40px;
-  padding: 4px;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
   color: white;
   text-align: left;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+td {
+  margin-top: 5px;
 }
 
 .App-title {
@@ -21,39 +33,132 @@
 .App-intro {
   font-size: large;
 }
-.login{
-  position: fixed;
-  top:10px;
-  right:10px;
+.login {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  text-align: right;
 }
-.headerbutton{
+.headerbutton {
   font-family: sans-serif;
-  letter-spacing: .5px;
-  font-size:18px;
-  color:#F2F2F2;
-  background-color:transparent;
-  border-color:transparent;  
-
+  letter-spacing: 0.5px;
+  font-size: 18px;
+  color: #f2f2f2;
+  background-color: transparent;
+  border-color: transparent;
 }
-.headerbutton:hover{
+.headerbutton:hover {
   color: #222222;
-  background-color:#f2f2f2;
+  background-color: #f2f2f2;
 }
-.table{
+.welcome {
+  margin-top: 60px;
+}
+.table {
   text-align: center;
-  
-
+  width: 650px;
+  margin: 20px auto;
 }
-.dataTab{
-text-align: left;
-margin: 0px auto;
-
-
+.dataTab {
+  text-align: left;
+  margin: auto;
+  width: 600px;
+}
+.btsButtons {
+  margin-top: 100px;
+}
+.deleteAccButt {
+  color: black;
+  background-color: red;
+  font-size: 15px;
+  margin-top: 100vh;
+}
+.enterButton {
+  font-size: 15px;
+  color: black;
+}
+.content {
+  display: Block;
+}
+.chart {
+  width: 575px;
+  height: 400px;
+  margin: auto;
+}
+.dataContainer {
+  display: inline-flex;
+  background-color: #e0e0e0;
+  border-color: #000000;
+  border: 1px;
+  border-style: solid;
+}
+.dataContainer2 {
+  display: inline-flex;
+}
+.table2 {
+  width: 200px;
+}
+.justLeft {
+  text-align: left;
+  margin: 5px;
+  width: 100%;
+}
+.accountIsWorth {
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+}
+.smallerpls {
+  width: 200px;
+  margin: auto;
+}
+@media (max-width: 1195px) {
+  .dataContainer {
+    display: block;
+  }
+  .dataContainer2 {
+    display: block;
+  }
+  .table {
+    width: 100vw;
+  }
+  .table2 {
+    margin: auto;
+    width: 200px;
+  }
+  .dataTab {
+    width: 100vw;
+    margin: 0px;
+  }
+  .chart {
+    width: 100vw;
+    padding-bottom: 150px;
+  }
 }
 
-
+@media (max-width: 875px) {
+  .chart {
+    padding-bottom: 50px;
+  }
+}
+@media (max-width: 500px) {
+  .chart {
+    height: 300px;
+    padding-bottom: 0px;
+  }
+}
+@media (max-width: 400px) {
+  .chart {
+    height: 200px;
+    padding-bottom: 0px;
+  }
+}
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

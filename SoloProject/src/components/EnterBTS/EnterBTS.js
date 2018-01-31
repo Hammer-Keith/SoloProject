@@ -21,7 +21,7 @@ export default class login extends Component {
       console.log("redirect to home");
       console.log(response.data);
 
-      window.location.href = "http://localhost:3000/";
+      window.location.href = "http://165.227.243.113:80/";
     });
   }
 

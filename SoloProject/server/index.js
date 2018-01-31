@@ -80,14 +80,14 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "http://localhost:3000/",
-    faliureRedirect: "http://localhost:3000/login"
+    successRedirect: "/",
+    faliureRedirect: "/login"
   })
 );
 
 app.get("/api/me", (req, res, next) => {
   if (req.user) res.json(req.user);
-  else res.redirect("http://localhost:3000/");
+  else res.redirect("/");
 });
 
 app.get("/api/new", (req, res, next) => {
@@ -95,11 +95,11 @@ app.get("/api/new", (req, res, next) => {
     .get("db")
     .getUserByID(req.user.authid)
     .then(response => res.json(response))
-    .then(() => res.redirect("http://localhost:3000/"));
+    .then(() => res.redirect("/"));
 });
 app.get("/logout", function(req, res) {
   req.logout();
-  res.redirect("http://localhost:3000/");
+  res.redirect("/");
 });
 
 app.put("/api/setBTS", (req, res, next) => {
@@ -146,10 +146,15 @@ app.get("/delete", (req, res, next) => {
     .deleteUserByID(req.user.authid)
     .then(response => {
       req.logout();
-      res.redirect("http://localhost:3000/");
+      res.redirect("http://165.227.243.113/");
     });
 });
 
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`Listening on ${process.env.PORT || 3001}!`);
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
+
+app.listen(80, () => {
+  console.log(`Listening on ${process.env.PORT }!`);
 });

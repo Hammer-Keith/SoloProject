@@ -86,7 +86,7 @@ td {
   margin: auto;
 }
 .dataContainer {
-  display: inline-flex;
+  display: Block;
   background-color: #e0e0e0;
   border-color: #000000;
   border: 1px;
@@ -112,6 +112,9 @@ td {
   width: 200px;
   margin: auto;
 }
+  .dataContainer {
+    display: block;
+  }
 @media (max-width: 1195px) {
   .dataContainer {
     display: block;

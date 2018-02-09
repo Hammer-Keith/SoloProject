@@ -1,0 +1,1 @@
+SELECT * FROM balance WHERE username = $1

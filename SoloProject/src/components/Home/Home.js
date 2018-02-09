@@ -25,7 +25,7 @@ class Home extends Component {
     this.props.retrieveUser();
     console.log(this.props.user);
 
-    axios.get(`/api/getBTSVal`).then(response => {
+    axios.get(`http://localhost:3001/api/getBTSVal`).then(response => {
       this.setState({ btsVal: response.data });
       if (this.props.user.name) {
         console.log("if statement checks out");
@@ -117,7 +117,7 @@ class Home extends Component {
             this.setState({ balanceloading: true });
             axios
               .get(
-                `/api/getbal/${
+                `http://localhost:3001/api/getbal/${
                   this.props.user.bts_account
                 }`
               )
@@ -128,7 +128,7 @@ class Home extends Component {
                   Object.keys(response.data).map((val, i) =>
                     // console.log(val)
                     axios
-                      .get(`/api/getvalue/${val}`)
+                      .get(`http://localhost:3001/api/getvalue/${val}`)
                       .then(response => {
                         values[i] = response.data.price;
                         this.setState({ value: values });

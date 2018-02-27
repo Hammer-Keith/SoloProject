@@ -25,7 +25,7 @@ massive(CONNECTION_STRING)
   .catch(console.log);
 
 //Middlewares
-app.use( express.static( `${__dirname}/../build` ) );
+app.use(express.static(`${__dirname}/../build`));
 app.use(json());
 app.use(cors());
 app.use(
@@ -80,7 +80,7 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "/",
+    successRedirect: "http://165.227.243.113/",
     faliureRedirect: "/login"
   })
 );
@@ -112,47 +112,46 @@ app.put("/api/setBTS", (req, res, next) => {
 });
 
 app.get("/api/getbal/:id", (req, res, next) => {
-  axios.get("db")
-  .getUserBalance(req.params.id)
-  .then( response =>{
-      if(response.data.dateofrefresh> (Math.round((new Date()).getTime() / 1000)-86400)){
-    res.json(response.data)
-}
-else{
-    axios.get(
-        `https://cryptofresh.com/api/account/balances?account=${req.params.id}`
-      )
-      .then(response => {
-        console.log(response.data)
-          response.data.map((val, i) =>{
-            axios.set("db").setUserBalance(val.balance, (Math.round((new Date()).getTime() / 1000)), req.params.id, Object.keys(val[1]))
-          }
-        )
-        res.json(response.data);
-      })
-    }
-}
-)
-  app.get("/api/getvalue/:id", (req, res, next) => {
-    if (req.params.id === "BTS") {
-      res.json({ price: 1 });
-    } else {
-      axios
-        .get(`https://cryptofresh.com/api/asset/markets?asset=${req.params.id}`)
-        .then(response => {
+  console.log(req.params.id);
+  app
+    .get("db")
+    .getUserBalance(req.params.id)
+    .then(response => {
+      res.json(response);
 
-          res.json(response.data.BTS);
-        });
-     
-    }
-  });
+      // else{
+      //     axios.get(
+      //         `https://cryptofresh.com/api/account/balances?account=${req.params.id}`
+      //       )
+      //       .then(response => {
+      //         console.log(response.data)
+      //           response.data.map((val, i) =>{
+      //             axios.set("db").setUserBalance(val.balance, (Math.round((new Date()).getTime() / 1000)), req.params.id, Object.keys(val[1]))
+      //           }
+      //         )
+      //         res.json(response.data);
+      //       })
+      //     }
+    });
+  // app.get("/api/getvalue/:id", (req, res, next) => {
+
+  //   if (req.params.id === "BTS") {
+  //     res.json({ price: 1 });
+  //   } else {
+  //     app.get("db").getCurrencyValues(req.params.id)
+
+  //     axios
+  //       .get(`https://cryptofresh.com/api/asset/markets?asset=${req.params.id}`)
+  //       .then(response => {
+
+  //         res.json(response.data.BTS);
+  //       });
+
+  //   }
+  // });
 });
 app.get("/api/getBTSVal", (req, res, next) => {
-  axios
-    .get("https://cryptofresh.com/api/asset/markets?asset=BTS")
-    .then(response => {
-      res.json(response.data.USD.price);
-    });
+  res.json(0.219867);
 });
 app.get("/delete", (req, res, next) => {
   app

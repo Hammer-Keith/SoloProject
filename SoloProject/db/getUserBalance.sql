@@ -1,1 +1,1 @@
-SELECT * FROM balance WHERE username = $1
+SELECT * FROM balance, currencyvalues WHERE balance.username = $1 AND balance.ticker = currencyvalues.ticker

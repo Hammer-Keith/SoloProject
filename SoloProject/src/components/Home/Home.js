@@ -24,8 +24,7 @@ class Home extends Component {
   componentDidMount(req, res, next) {
     this.props.retrieveUser();
     console.log(this.props.user);
-
-    axios.get(`http://localhost:3001/api/getBTSVal`).then(response => {
+    axios.get(`/api/getBTSVal`).then(response => {
       this.setState({ btsVal: response.data });
       if (this.props.user.name) {
         console.log("if statement checks out");
@@ -116,23 +115,23 @@ class Home extends Component {
           ) {
             this.setState({ balanceloading: true });
             axios
-              .get(
-                `http://localhost:3001/api/getbal/${
-                  this.props.user.bts_account
-                }`
-              )
+              .get(`/api/getbal/${this.props.user.bts_account}`)
               .then(response => {
-                this.setState({ balance: response.data });
+                console.log(response);
+                var accum = 0;
+                response.data.map((val, i) => {
+                  console.log(val);
+                  accum += val.ammount * val.price * this.state.btsVal;
+                });
+                this.setState({ balance: response.data, accountVal: accum });
 
                 if (Object.keys(response.data).length < 100) {
                   Object.keys(response.data).map((val, i) =>
                     // console.log(val)
-                    axios
-                      .get(`http://localhost:3001/api/getvalue/${val}`)
-                      .then(response => {
-                        values[i] = response.data.price;
-                        this.setState({ value: values });
-                      })
+                    axios.get(`/api/getvalue/${val}`).then(response => {
+                      values[i] = response.data.price;
+                      this.setState({ value: values });
+                    })
                   );
                 }
               });
@@ -168,111 +167,54 @@ class Home extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.keys(this.state.balance).map((val, i) => (
+                    {this.state.balance.map((val, i) => (
                       <tr>
-                        <td>{val}</td>
-                        <td>{this.state.balance[val].balance}</td>
-                        {this.state.value[i] && (
+                        <td>{val.ticker}</td>
+                        <td>{val.ammount}</td>
+                        {
                           <td>
                             ${Math.round(
-                              this.state.value[i] *
+                              val.price * this.state.btsVal * 100000000
+                            ) / 100000000}
+                          </td>
+                        }
+                        {
+                          <td>
+                            ${Math.round(
+                              val.ammount *
+                                val.price *
                                 this.state.btsVal *
                                 100000000
                             ) / 100000000}
                           </td>
-                        )}
-                        {this.state.totalVal[i] && (
-                          <td>
-                            ${Math.round(this.state.totalVal[i] * 100000000) /
-                              100000000}
-                          </td>
-                        )}
+                        }
                       </tr>
                     ))}
                   </tbody>
                 </table>
               )}
             </div>
-            {this.state.value.length > 0 &&
-              Object.keys(this.state.balance).length ===
-                this.state.value.length && (
-                <div className="chart">
-                  {this.setTotVal()}
-
-                  <Bar
-                    data={{
-                      labels: Object.keys(this.state.balance),
-                      datasets: [
-                        {
-                          label: "Your Collection Value",
-                          data: this.state.totalVal,
-                          pointBackgroundColor: "#FFFFFF",
-                          backgroundColor: [
-                            "#727272",
-                            "#f1595f",
-                            "#79c36a",
-                            "#599ad3",
-                            "#f9a65a",
-                            "#9e66ab",
-                            "#cd7058",
-                            "#d77fb3"
-                          ],
-                          hoverBackgroundColor: [
-                            "#727272",
-                            "#f1595f",
-                            "#79c36a",
-                            "#599ad3",
-                            "#f9a65a",
-                            "#9e66ab",
-                            "#cd7058",
-                            "#d77fb3"
-                          ]
-                        }
-                      ]
-                    }}
-                  />
-                </div>
-              )}
-          </div>
-        )}
-        <div className="dataContainer2">
-          <div className="table2">
-            {this.state.value.length > 0 &&
-              Object.keys(this.state.balance).length ===
-                this.state.totalVal.length && (
-                <div className="smallerpls">
-                  <p className="accountIsWorth">Your account is worth:</p>
-                  <p className="justLeft">${this.state.accountVal}</p>
-                  {this.state.value.map((val, i) => (
-                    <div>
-                      {Object.keys(this.state.balance)[i] !== "USD" && (
-                        <p className="justLeft">
-                          {Object.keys(this.state.balance)[i]}{" "}
-                          {this.state.accountVal /
-                            this.state.btsVal /
-                            this.state.value[i]}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-          </div>
-
-          {this.state.value.length > 0 &&
-            Object.keys(this.state.balance).length ===
-              this.state.value.length && (
+            {this.state.balance.length > 0 && (
               <div className="chart">
-                {this.setTotVal()}
-
-                <Doughnut
+                <Bar
                   data={{
-                    labels: Object.keys(this.state.balance),
+                    labels: this.state.balance.map((val, i) => {
+                      return val.ticker;
+                    }),
                     datasets: [
                       {
-                        data: this.state.totalVal.map(
-                          (val, i) => val / this.state.accountVal * 100
-                        ),
+                        label: "Your Collection Value",
+                        data: this.state.balance.map((val, i) => {
+                          return (
+                            Math.round(
+                              val.ammount *
+                                val.price *
+                                this.state.btsVal *
+                                100000000
+                            ) / 100000000
+                          );
+                        }),
+                        pointBackgroundColor: "#FFFFFF",
                         backgroundColor: [
                           "#727272",
                           "#f1595f",
@@ -299,9 +241,71 @@ class Home extends Component {
                 />
               </div>
             )}
+          </div>
+        )}
+        <div className="dataContainer2">
+          <div className="table2">
+            {this.state.balance.length > 0 && (
+              <div className="smallerpls">
+                <p className="accountIsWorth">Your account is worth:</p>
+                <p className="justLeft">${this.state.accountVal}</p>
+                {this.state.balance.map((val, i) => (
+                  <div>
+                    {val.ticker !== "USD" && (
+                      <p className="justLeft">
+                        {val.ticker}{" "}
+                        {this.state.accountVal / this.state.btsVal * val.price}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {this.state.balance.length > 0 && (
+            <div className="chart">
+              <Doughnut
+                data={{
+                  labels: this.state.balance.map((val, i) => {
+                    return val.ticker;
+                  }),
+                  datasets: [
+                    {
+                      data: this.state.balance.map((val, i) => {
+                        return (
+                          val.ammount *
+                          val.price *
+                          this.state.btsVal /
+                          this.state.accountVal
+                        );
+                      }),
+                      backgroundColor: [
+                        "#727272",
+                        "#f1595f",
+                        "#79c36a",
+                        "#599ad3",
+                        "#f9a65a",
+                        "#9e66ab",
+                        "#cd7058",
+                        "#d77fb3"
+                      ],
+                      hoverBackgroundColor: [
+                        "#727272",
+                        "#f1595f",
+                        "#79c36a",
+                        "#599ad3",
+                        "#f9a65a",
+                        "#9e66ab",
+                        "#cd7058",
+                        "#d77fb3"
+                      ]
+                    }
+                  ]
+                }}
+              />
+            </div>
+          )}
         </div>
-
-        {/* {JSON.stringify(this.props.user)} */}
       </div>
     );
   }

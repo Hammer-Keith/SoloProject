@@ -80,7 +80,7 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "http://localhost:3002/",
+    successRedirect: "/",
     faliureRedirect: "/login"
   })
 );
@@ -159,7 +159,7 @@ app.get("/delete", (req, res, next) => {
     .deleteUserByID(req.user.authid)
     .then(response => {
       req.logout();
-      res.redirect("http://localhost:3000/");
+      res.redirect("/");
     });
 });
 const path = require("path");

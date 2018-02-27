@@ -80,7 +80,7 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "http://165.227.243.113/",
+    successRedirect: "http://localhost:3002/",
     faliureRedirect: "/login"
   })
 );

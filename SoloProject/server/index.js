@@ -107,7 +107,7 @@ app.put("/api/setBTS", (req, res, next) => {
     .get("db")
     .setBitShares([req.user.id, req.body.userNameInput])
     .then(response => {
-      res.redirect("/");
+      res.redirect("http://165.227.55.253/");
     });
 });
 

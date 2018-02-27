@@ -20,8 +20,6 @@ export default class login extends Component {
     axios.put("/api/setBTS", this.state).then(response => {
       console.log("redirect to home");
       console.log(response.data);
-
-      window.location.href = "http://165.227.243.113:80/";
     });
   }
 

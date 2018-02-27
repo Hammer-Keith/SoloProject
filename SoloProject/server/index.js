@@ -107,7 +107,7 @@ app.put("/api/setBTS", (req, res, next) => {
     .get("db")
     .setBitShares([req.user.id, req.body.userNameInput])
     .then(response => {
-      res.json("success!");
+      res.redirect("/");
     });
 });
 
@@ -162,10 +162,10 @@ app.get("/delete", (req, res, next) => {
       res.redirect("http://localhost:3000/");
     });
 });
-// const path = require('path')
-// app.get('*', (req, res)=>{
-//   res.sendFile(path.join(__dirname, '../build/index.html'));
-// })
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/"));
+});
 app.listen(process.env.PORT || 3001, () => {
   console.log(`Listening on ${process.env.PORT || 3001}!`);
 });

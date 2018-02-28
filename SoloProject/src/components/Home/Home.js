@@ -306,8 +306,6 @@ class Home extends Component {
             </div>
           )}
         </div>
-
-        {JSON.stringify(this.props)}
       </div>
     );
   }

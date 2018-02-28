@@ -71,4 +71,4 @@ class login extends Component {
   }
 }
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(login);
+export default connect(mapStateToProps, { newBTS })(login);

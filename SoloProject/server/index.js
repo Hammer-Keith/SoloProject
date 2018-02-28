@@ -86,8 +86,7 @@ app.get(
 );
 
 app.get("/api/me", (req, res, next) => {
-  if (req.user) res.json(req.user);
-  else res.redirect("/");
+  res.redirect("/");
 });
 
 app.get("/api/new", (req, res, next) => {

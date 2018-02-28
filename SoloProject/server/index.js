@@ -102,6 +102,7 @@ app.get("/logout", function(req, res) {
 });
 
 app.put("/api/setBTS", (req, res, next) => {
+  console.log("req.body setBTS:", req.body);
   app
     .get("db")
     .setBitShares({ id: req.body.id, userNameInput: req.body.userNameInput })
@@ -111,6 +112,7 @@ app.put("/api/setBTS", (req, res, next) => {
 });
 
 app.get("/api/getbal/:id", (req, res, next) => {
+  console.log(req.params.id);
   app
     .get("db")
     .getUserBalance(req.params.id)

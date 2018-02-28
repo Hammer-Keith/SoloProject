@@ -15,15 +15,19 @@ class login extends Component {
 
   updateUsername(val) {
     this.setState({ userNameInput: val });
+    console.log(this.state.userNameInput);
   }
   setUsername() {
+    console.log(this.props);
     axios
       .put("/api/setBTS", {
         userNameInput: this.state.userNameInput,
         id: this.props.user.id
       })
       .then(response => {
-        this.props.history.push("/");
+        console.log("redirect to home");
+        console.log(response.data);
+        this.props.history.push(" / ");
       });
   }
 
@@ -63,6 +67,7 @@ class login extends Component {
             </a>
           </div>
         </div>
+        {JSON.stringify(this.props)}
       </div>
     );
   }

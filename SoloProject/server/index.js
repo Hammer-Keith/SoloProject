@@ -107,7 +107,7 @@ app.put("/api/setBTS", (req, res, next) => {
     .get("db")
     .setBitShares({ id: req.body.id, userNameInput: req.body.userNameInput })
     .then(response => {
-      res.json("success!");
+      res.json(response);
     });
 });
 

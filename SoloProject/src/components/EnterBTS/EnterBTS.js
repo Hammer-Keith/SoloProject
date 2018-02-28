@@ -23,6 +23,7 @@ class login extends Component {
         id: this.props.user.id
       })
       .then(response => {
+        console.log("response from server after changing bitshares:", response);
         this.props.history.push("/");
       });
   }

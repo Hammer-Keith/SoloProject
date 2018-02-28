@@ -102,10 +102,9 @@ app.get("/logout", function(req, res) {
 });
 
 app.put("/api/setBTS", (req, res, next) => {
-  console.log("req.body setBTS:", req.body);
   app
     .get("db")
-    .setBitShares({ id: req.body.id, userNameInput: req.body.userNameInput })
+    .setBitShares([req.body.id, req.body.userNameInput])
     .then(response => {
       res.json("success!");
     });

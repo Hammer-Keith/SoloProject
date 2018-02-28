@@ -16,11 +16,17 @@ export default class login extends Component {
     console.log(this.state.userNameInput);
   }
   setUsername() {
-    axios.put("/api/setBTS", this.state).then(response => {
-      console.log("redirect to home");
-      console.log(response.data);
-      this.props.history.push(" / ");
-    });
+    console.log(this.props);
+    axios
+      .put("/api/setBTS", {
+        userNameInput: this.state.userNameInput,
+        id: this.props.user.id
+      })
+      .then(response => {
+        console.log("redirect to home");
+        console.log(response.data);
+        this.props.history.push(" / ");
+      });
   }
 
   render() {

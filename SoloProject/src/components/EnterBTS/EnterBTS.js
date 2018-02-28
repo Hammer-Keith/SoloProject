@@ -67,6 +67,7 @@ class login extends Component {
             </a>
           </div>
         </div>
+        {JSON.stringify(this.props)}
       </div>
     );
   }

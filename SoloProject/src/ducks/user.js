@@ -12,16 +12,12 @@ export function retrieveUser() {
       .catch(console.log)
   };
 }
-export function newBTS() {
+export function newBTS(newuser) {
   return {
     type: NEW_USER,
-    payload: axios
-      .get("/api/new")
-      .then(response => response.data)
-      .catch(console.log)
+    payload: newuser
   };
 }
-
 
 const initialState = {
   user: {},
@@ -38,7 +34,6 @@ export default function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isLoading: false,
         user: action.payload
-
       });
 
     case `${RETRIEVE_USER}_REJECTED`:
@@ -47,18 +42,14 @@ export default function userReducer(state = initialState, action) {
         didError: true
       });
 
-
-      case `${NEW_USER}_PENDING`:
-    return Object.assign({}, state, { isLoading: true });
+    case NEW_USER:
+      return Object.assign({}, state, { isLoading: true });
 
     case `${NEW_USER}_FULFILLED`:
       return Object.assign({}, state, {
         isLoading: false,
         user: action.payload
-
       });
-
-
 
     default:
       return state;

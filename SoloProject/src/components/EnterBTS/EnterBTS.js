@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { retrieveUser } from "../../ducks/user";
+import { newBTS } from "../../ducks/user";
 
 class login extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class login extends Component {
       })
       .then(response => {
         console.log("response from server after changing bitshares:", response);
+        this.props.newBTS(response.data[0]);
         this.props.history.push("/");
       });
   }

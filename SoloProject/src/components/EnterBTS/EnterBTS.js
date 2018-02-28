@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { retrieveUser } from "../../ducks/user";
 
-export default class login extends Component {
+class login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,3 +69,5 @@ export default class login extends Component {
     );
   }
 }
+const mapStateToProps = state => state;
+export default connect(mapStateToProps)(login);
